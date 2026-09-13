@@ -1,0 +1,24 @@
+#!/bin/bash
+set -eux
+
+apt-get update -y
+apt-get install -y nginx
+
+TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" \
+  -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+INSTANCE_ID=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" \
+  http://169.254.169.254/latest/meta-data/instance-id)
+
+cat > /var/www/html/index.html << HTML
+<html>
+  <head><title>${environment_name}</title></head>
+  <body style="font-family: sans-serif;">
+    <h1>version: ${version_tag}</h1>
+    <p>environment: ${environment_name}</p>
+    <p>instance-id: $INSTANCE_ID</p>
+  </body>
+</html>
+HTML
+
+systemctl enable nginx
+systemctl restart nginx
