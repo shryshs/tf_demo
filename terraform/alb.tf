@@ -51,6 +51,19 @@ resource "aws_lb" "app" {
   }
 }
 
+# resource "aws_lb_listener" "http" {
+#   load_balancer_arn = aws_lb.app.arn
+
+#   port     = 80
+#   protocol = "HTTP"
+
+#   default_action {
+#     type = "forward"
+
+#     target_group_arn = aws_lb_target_group.app.arn
+#   }
+# }
+
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.app.arn
 
@@ -60,6 +73,16 @@ resource "aws_lb_listener" "http" {
   default_action {
     type = "forward"
 
-    target_group_arn = aws_lb_target_group.app.arn
+    forward {
+      target_group {
+        arn    = module.blue.target_group_arn
+        weight = var.traffic_weights.blue
+      }
+
+      target_group {
+        arn    = module.green.target_group_arn
+        weight = var.traffic_weights.green
+      }
+    }
   }
 }
