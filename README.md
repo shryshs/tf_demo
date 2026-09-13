@@ -55,3 +55,9 @@ terraform apply
 terraform plan
 terraform apply
 ```
+
+For canary testing:
+```
+cd envs/root
+./../../scripts/canary_rollout.sh 30 0.2
+```
