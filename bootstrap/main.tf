@@ -54,6 +54,10 @@ resource "aws_dynamodb_table" "locks" {
     type = "S"
   }
 
+  point_in_time_recovery {       
+    enabled = true                # snyk fix
+  }
+
   tags = {
     Name      = var.lock_table_name
     ManagedBy = "terraform"
