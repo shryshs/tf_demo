@@ -33,6 +33,8 @@ for step in "${STEPS[@]}"; do
     -var="blue_weight=${BLUE}" \
     -var="green_weight=${GREEN}"
 
+  sleep 5
+
   ALB_DNS=$(terraform output -raw alb_dns_name)
 
   echo ""
