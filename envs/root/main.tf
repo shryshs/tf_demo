@@ -105,6 +105,7 @@ resource "aws_lb" "this" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb.id]
   subnets            = aws_subnet.public[*].id
+  drop_invalid_header_fields = true    # <-- snyk fix
 
   tags = merge(var.common_tags, {
     Name        = "${var.project_name}-alb"
