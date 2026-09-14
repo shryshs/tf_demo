@@ -1,5 +1,11 @@
 # Terraform Blue-Green Web Environment — Commands
 
+---
+## Architecture:
+
+![Architecture](static/tf_demo_architecture.png)
+---
+
 ## PART 1 — Build Alpha
 
 ```bash
@@ -9,7 +15,7 @@ terraform init
 terraform apply -var="state_bucket_name=tfstate-backend-shr-bucket" -var="region=ap-south-1"
 # note the outputs: state_bucket_name, lock_table_name
 
-# 2) Put that bucket name into envs/root/backend.tf (replace CHANGE-ME)
+# 2) Put that bucket name into envs/root/backend.tf
 
 # 3) Put your Ubuntu AMI id into envs/root/terraform.tfvars (blue_ami_id)
 
